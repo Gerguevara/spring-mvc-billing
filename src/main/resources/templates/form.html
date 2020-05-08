@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="layout/layaout :: head"></head>
+
+<body>
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin nav  -->
+
+	<!-- Main content <fin></fin> -->
+	<main class="container animated fadeIn mt-3">
+
+		<!-- Titulo -->
+		<div class="row">
+			<div class="mt-5 ">
+				<h1 th:text="${titulo}" class="mb-3"></h1>
+			</div>
+		</div>
+
+		<!-- Titulo -->
+
+		<!-- Formulario -->
+		<form th:action="@{/form}" th:object="${cliente}" method="post"
+			class="mb-5" enctype="multipart/form-data">
+
+			<!-- Nombre input -->
+			<div class="form-row">
+				<div class="col-md-5">
+					<div class="md-form form-lg">
+						<input type="text" id="inputLGEx" th:field="*{nombre}"
+							class="form-control form-control-lg"><label
+							for="inputLGEx">Nombre</label>
+					</div>
+
+					<!-- Nombre Errors -->
+					<div class="alert alert-danger"
+						th:if="${#fields.hasErrors('nombre')}">
+						<small th:errors="*{nombre}"> </small>
+					</div>
+					<!-- Nombre Errors -->
+				</div>
+				<!-- Nombre input Fin -->
+
+				<!-- Nombre Apellido-->
+				<div class="col-md-5 offset-md-1">
+					<div class="md-form form-lg">
+						<input type="text" id="inputLGEx" th:field="*{apellido}"
+							class="form-control form-control-lg"> <label
+							for="inputLGEx">Apellido</label>
+					</div>
+
+					<!-- Apellido Errors -->
+					<div class="alert alert-danger"
+						th:if="${#fields.hasErrors('apellido')}">
+						<small th:errors="*{apellido}"> </small>
+					</div>
+					<!-- Apellido Errors -->
+
+				</div>
+				<!-- Apellido input fin -->
+			</div>
+
+
+			<!-- Email input -->
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form form-lg">
+						<input type="email" id="inputLGEx" th:field="*{email}"
+							class="form-control form-control-lg"> <label
+							for="inputLGEx">Email</label>
+
+						<!-- Email Errors -->
+						<div class="alert alert-danger"
+							th:if="${#fields.hasErrors('email')}">
+							<small th:errors="*{email}"> </small>
+						</div>
+						<!-- Emal Errors -->
+					</div>
+				</div>
+			</div>
+			<!-- Email input Fin -->
+
+
+			<div class="form-row"><!-- Row de fotos y fecha -->
+			
+				<div class="col-4 my-auto">	<!-- Foto de perfil-->
+					<div class="file-upload">			
+						<div class="image-upload-wrap">
+							<input class="file-upload-input" type='file' name='file'
+								onchange="readURL(this);" accept="image/*" />
+							<div class="drag-text">
+								<h3>Drag and drop your file or click Here to add it</h3>
+							</div>
+						</div>
+						<div class="file-upload-content">
+							<img class="file-upload-image" src="#" alt="your image" />
+							<div class="image-title-wrap">
+								<button type="button" onclick="removeUpload()"
+									class="remove-image">
+									Remove <span class="image-title">Uploaded Image</span>
+								</button>
+							</div>
+						</div>						
+					</div>
+				</div><!-- Foto de perfil fin-->
+
+				<div class="col-5 offset-2">
+					<!-- Fecha creacion -->
+					<div class="md-form">
+						<input placeholder="Fechar de Creacion" type="date"
+							th:field="*{createAt}" id="date-picker-example"
+							class="form-control datepicker">
+
+						<!-- Fecha Errors -->
+						<div class="alert alert-danger"
+							th:if="${#fields.hasErrors('createAt')}">
+							<small th:errors="*{createAt}"> </small>
+						</div>
+						<!-- Fecha Errors -->
+					</div>
+				</div>
+				<!-- Fecha creacion Fin -->
+			</div>
+			<!-- Row de fotos y fecha fin -->
+
+
+
+			<!-- Buttons -->
+			<div class="form-row d-flex justify-content-end">
+				<div class="col-md-6">
+					<input type="submit"
+						class="btn  btn-indigo text-light btn-rounded waves-effect"
+						value="Guardar" /> <a th:href="@{/listar}"
+						class="btn btn-light btn-rounded ">Cancelar</a>
+				</div>
+			</div>
+			<!-- Buttons@ Fin -->
+			<!-- <input type="hidden" th:field="*{id}" /> -->
+		</form>
+		<!-- Formulario -->
+
+
+	</main>
+	<!-- Main content fin-->
+	<footer th:replace="layout/layaout :: footer"></footer>
+</body>
+</html>

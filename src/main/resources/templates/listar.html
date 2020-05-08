@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="layout/layaout :: head">
+</head>
+
+<body>
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin nav  -->
+	
+	<!-- Mensajes-->
+	<div th:if="${success != null}">
+	<div th:replace="layout/layaout :: notification-success" ></div>	
+	</div>
+	
+	<div th:if="${danger != null}">
+	<div th:replace="layout/layaout :: notification-danger" ></div>	
+	</div>
+	
+	<div th:if="${error != null}">
+	<div th:replace="layout/layaout :: notification-error" ></div>	
+	</div>
+	<!-- Mensajes-->
+
+	<!-- Main content -->
+	<main class="container animated fadeIn">
+
+		<div class="mt-5 mb-3">
+			<h3 th:text="${titulo}" 
+			class="row d-flex justify-content-center"></h3>
+		</div>
+		<div class="row ml-5">
+			<a th:href="@{/form}"
+				class="btn btn-indigo btn-rounded btn-sm"><i
+				class="fas fa-user-plus fa-xl"></i>	
+				agregar			
+			</a>
+		</div>
+		
+		<!-- ROW -->
+		<div class="row ml-md-5">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">id</th>
+						<th scope="col">nombre</th>
+						<th scope="col">apellido</th>
+						<th scope="col">email</th>
+						<th scope="col">fecha</th>
+						<th scope="col">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cliente: ${clientes}">
+						
+						<th>
+							<a th:href="@{/ver/}+${cliente.id}" th:text="${cliente.id}"
+							class="btn-floating  btn-sm btn-indigo text-light">
+							</a>
+						</th>
+
+						<th th:text="${cliente.nombre}"></th>
+
+						<td th:text="${cliente.apellido}"></td>
+
+						<td th:text="${cliente.email}"></td>
+
+						<td th:text="${#calendars.format(cliente.createAt,'dd-MM-yyyy')}"></td>
+
+						<td>
+						
+						<a th:href="@{/form/} + ${cliente.id}"
+							class="btn-floating btn-sm btn-secondary
+						 btn-rounded">
+								<i class="far fa-edit"></i>
+						</a>
+						
+						 <a th:href="@{/eliminar/} + ${cliente.id}" class="btn-floating 
+						 btn-sm btn-danger btn-rounded" 
+						 onclick="return confirm('¿ Desea Eliminar este usuario?');">
+						 <i	class="far fa-trash-alt"></i>
+						 </a>
+						
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- ROW -->
+		
+		
+		<div class="row d-flex justify-content-center">
+		<nav th:replace="layout/paginator :: paginator"></nav>
+		</div>
+		
+	</main>
+	<!-- footer -->
+	<footer th:replace="layout/layaout :: footer"></footer>
+	<!-- footer Fin-->
+</body>
+
+</html>

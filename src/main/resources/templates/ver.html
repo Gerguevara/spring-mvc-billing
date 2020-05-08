@@ -1,0 +1,117 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+<!-- head fragment -->
+<head th:replace="layout/layaout :: head"></head>
+<!-- head fragment -->
+<body>
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin nav  -->
+
+	<!-- main container -->
+	<div class="container-fluid">
+		<!-- Row Principal -->
+		<div class="row mt-5">
+
+			<!-- Row foto -->
+			<div class="col-5 d-flex justify-content-center">
+
+				<!-- Foto de Perfil -->
+				<img th:if="${#strings.length(cliente.foto) > 0}"
+					th:src="@{'/uploads/'+ ${cliente.foto}}"
+					class="rounded-circle border border-dark" alt="Profile" width="340"
+					height="340" />
+				<!-- Foto de Perfil Fin -->
+
+				<!-- Foto error -->
+				<img th:if="${#strings.length(cliente.foto) == 0}"
+					th:src="@{/assets/no-img.png}"
+					class="rounded-circle border border-dark" alt="Profile" width="340"
+					height="340" />
+				<!-- Foto error Fin-->
+			</div>
+			<div class="col-6">
+				<!-- Row foto Fin -->
+
+
+				<!-- Row de nombre y Apelido -->
+				<div class="row mt-3">
+					<p class="h4"
+						th:text="'Nombre: ' + ' '+${cliente.nombre} 
+					+' '+${cliente.apellido}">
+					</p>
+				</div>
+				<!-- Row de nombre y Apelido  fin-->
+
+				<!-- Row de email -->
+				<div class="row mt-4">
+					<p class="h4" th:text="'Email: '+${cliente.email}"></p>
+				</div>
+				<!-- Row de email fin -->
+
+				<!-- Row de fecha -->
+				<div class="row mt-4">
+					<p class="h4"
+						th:text="'Antiguedad: '+${#calendars.format(cliente.createAt,
+						'dd-MM-yyyy')}"></p>
+				</div>
+				<!-- Row de fecha fin-->
+
+
+				<!-- Row no Facturas-->
+				<div class="row mt-5" th:if="${#lists.isEmpty(cliente.facturas)}">
+					<div class="alert alert-success" role="alert">El cliente aun
+						no possee facturas.</div>
+				</div>
+				<!-- Row no Facturas fin-->
+
+				<!-- Row de Facturas-->
+				<div class="row mt-4 mb-3"
+					th:if="${not #lists.isEmpty(cliente.facturas)}">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Folio</th>
+								<th scope="col">Descripcion</th>
+								<th scope="col">Fecha</th>
+								<th scope="col">Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="factura: ${cliente.facturas}">
+
+								<th th:text="${factura.id}"></th>
+
+								<td th:text="${factura.descripcion}"></td>
+
+								<td th:text="${factura.createAt}"></td>
+
+								<td th:text="${factura.total}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- Row de facturas Fin -->
+
+				<!-- Row de botones -->
+				<div class="row">
+					<a th:href="@{/form/} + ${cliente.id}"
+						class="btn btn-deep-purple btn-rounded"> <i
+						class="far fa-edit"></i> &nbsp; Editar
+					</a> <a th:href="@{/listar}" class="btn btn-light btn-rounded"> <i
+						class="fas fa-arrow-left"></i> &nbsp; Volver
+					</a>
+				</div>
+				<!-- Row de botone fin-->
+
+			</div>
+		</div>
+		<!-- Row Principal Fin -->
+	</div>
+	<!-- main container Fin -->
+
+	<!-- footer-->
+	<footer th:replace="layout/layaout :: footer" class="fixed"></footer>
+	<!-- footer Fin-->
+</body>
+</html>
