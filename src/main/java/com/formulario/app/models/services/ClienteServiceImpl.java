@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.formulario.app.models.dao.IclienteDao;
+import com.formulario.app.models.dao.IproductoDao;
 import com.formulario.app.models.entity.Cliente;
+import com.formulario.app.models.entity.Producto;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
@@ -17,6 +19,8 @@ public class ClienteServiceImpl implements IClienteService {
 	@Autowired
 	private IclienteDao clienteDao;	
 	
+	@Autowired
+	private IproductoDao productoDao;
 
 	@Override
 	@Transactional(readOnly=true) //especifica que solo es una consulta de lectura si no no usar
@@ -57,5 +61,12 @@ public class ClienteServiceImpl implements IClienteService {
 		
 		clienteDao.deleteById(id);
 	}
+	
+	
 
+	// metodo que sirve para buscar producto
+	@Override
+	public List<Producto> findByNombre(String term) {		
+		return productoDao.findByNombre(term);
+	}
 }

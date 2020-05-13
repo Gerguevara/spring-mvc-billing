@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+
+	<table class="d-none" th:fragment="itemsFactura">
+		<tbody id="plantillaItemsFactura">
+
+			<tr id="row_{ID}">
+			
+				<td class="d-none">
+				<input type="hidden" value="{ID}"
+				name="item_id[]" />
+				</td>	
+							
+				<td >{NOMBRE}</td>
+				
+				<td>{PRECIO}</td>	
+							
+				<td class="d-flex justify-content-center">  
+				<div class="col-6">
+				<input type="number" name="cantidad[]" 
+				id="cantidad_{ID}"  value="1" class="form-control form-control"
+				onchange="itemsHelper.calcularImporte({ID}, {PRECIO}, this.value);"/>
+				</div>
+				</td>
+									
+				<td>			
+				<span id="total_importe_{ID}">0</span>
+				</td>
+				
+				<td>				
+				<button class="btn-floating  btn-sm btn-danger btn-rounded"
+						onclick="itemsHelper.eliminarLineaFactura({ID});">
+				<i class="far fa-trash-alt"></i>
+				</button >				
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="layout/layaout :: head"></head>
+
+<body>
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin del  Nav -->
+
+	<!-- Main Container inicio -->
+	<main class="container animated fadeIn mt-1">
+
+		<div class="card mt-5 mx-5">
+			<div class="row">
+				<!----------------------------------------------
+				---------------row datos del cliente--------------
+				------------------------------------------------->
+				<div class="col-4 indigo darken-3">
+					<!-- Row foto -->
+					<div class="d-flex justify-content-center mt-3">
+						<!-- Foto de Perfil -->
+						<img th:if="${#strings.length(factura.cliente.foto) > 0}"
+							th:src="@{'/uploads/'+ ${factura.cliente.foto}}"
+							class="rounded-circle border border-dark" alt="Profile"
+							width="250" height="250" />
+						<!-- Foto de Perfil Fin -->
+
+						<!-- Foto error -->
+						<img th:if="${#strings.length(factura.cliente.foto) == 0}"
+							th:src="@{/assets/no-img.png}"
+							class="rounded-circle border border-dark" alt="Profile"
+							width="250" height="250" />
+						<!-- Foto error Fin-->
+					</div>
+					<!-- Row foto Fin -->
+
+					<!-- Cliente nombre label -->
+					<div class="row mt-3">
+						<div class="col d-flex justify-content-center">
+							<p class="h5 text-white"
+								th:text="'Email: ' + ' '+ ${factura.cliente.email}"></p>
+						</div>
+					</div>
+					<!-- Cliente nombre label fin -->
+
+					<!-- Cliente nombre label -->
+					<div class="row mt-3">
+						<div class="col d-flex justify-content-center">
+							<p class="h5 text-white"
+								th:text="'Cliente: ' + ' '+${factura.cliente.nombre} + 
+							' ' +${factura.cliente.apellido}"></p>
+						</div>
+					</div>
+					<!-- Cliente nombre label fin -->
+				</div>
+				<!----------------------------------------------
+				---------------row datos del cliente-FIN----------
+				------------------------------------------------->
+
+
+				<!----------------------------------------------
+				---------------row de formulario ----------------
+				------------------------------------------------->
+				<div class="col-8">
+					<form th:action="@{/factura/form/}" th:object="${factura}"
+						method="post" class="mb-5">
+
+						<!-- Titulo -->
+						<div class="row">
+							<div class="mt-5 d-flex">
+								<p th:text="${titulo}" class="h1 mb-3 ml-md-5"></p>
+							</div>
+						</div>
+						<!-- Titulo Fin -->
+
+						<!-- Description input -->
+						<div class="form-row">
+							<div class="col">
+								<div class="md-form md-form form-lg mx-2">
+									<input type="text" id="inputLGEx" th:field="*{descripcion}"
+										class="form-control form-control-lg"> <label
+										for="inputLGEx">Descripci&oacuten</label>
+								</div>
+							</div>
+						</div>
+						<!-- Description input fin -->
+
+						<!-- Observacion input -->
+						<div class="form-row">
+							<div class="col mx-2">
+								<div class="md-form md-form form-lg mx-3">
+									<textarea th:field="*{observacion}" id="form10"
+										class="md-textarea form-control" rows="3">						 
+									</textarea>
+									<label for="form10">Observaci&oacutenes</label>
+								</div>
+							</div>
+						</div>
+						<!-- Observacion input fin -->
+
+						<!-- Row de busqueda -->
+						<div class="form-row">
+							<div class="col">
+								<div
+									class="form-inline d-flex justify-content-center
+								 md-form form-sm mt-0">
+									<i class="fas fa-search" aria-hidden="true"></i> <input
+										id="buscar_producto" name="buscar_producto"
+										class="form-control form-control-sm ml-3 w-75" type="text"
+										placeholder="Search" aria-label="Search">
+								</div>
+							</div>
+						</div>
+						<!-- Row de busqueda FIN-->
+
+						<!-- Busqueda Results -->
+						<table th:replace="factura/plantilla-items :: itemsFactura"></table>
+						<!-- Busqueda Results -->
+
+
+						<!-- Items-->
+						<table class="table table-striped table-hover"
+							id="cargarItemProductos">
+							<thead>
+								<tr>
+									<th scope="col">Nombre</th>
+									<th scope="col">Precio</th>
+									<th scope="col" class="d-flex justify-content-center">
+										Cantidad</th>
+									<th scope="col">Total $</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<!-- Items FIN-->
+						
+						<!-- Total-->
+						<div class="d-flex justify-content-end">
+							<h4>
+								<span class="badge badge-pill badge-primary"> $ 
+								<span
+									id="gran_total">0</span>
+								</span>
+							</h4>
+						</div>
+						<!-- Total FIN-->
+
+
+						<!-- Buttons -->
+						<div class="form-row mt-5">
+							<div class="col d-flex justify-content-center">
+								<input type="submit"
+									class="btn  btn-indigo text-light btn-rounded waves-effect"
+									value="Guardar" /> <a
+									th:href="@{/ver/} + ${factura.cliente.id}"
+									class="btn btn-light btn-rounded ">Cancelar</a>
+							</div>
+						</div>
+						<!-- Buttons@ Fin -->
+					</form>
+				</div>
+				<!----------------------------------------------
+				---------------row de formulario  Fin-----------
+				------------------------------------------------->
+			</div>
+		</div>
+
+
+	</main>
+	<!-- Main Container final-->
+
+	<!-- Inicio footer -->
+	<footer th:replace="layout/layaout :: footer"></footer>
+	<!-- Fin delfooter -->
+</body>
+</html>

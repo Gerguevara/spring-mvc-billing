@@ -23,6 +23,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "facturas")
 public class Factura implements Serializable {
+	
+	/*****************
+	 * Declaraciones
+	 * ****************/
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,14 +47,25 @@ public class Factura implements Serializable {
 	@JoinColumn(name = "factura_id")// indica que hace una relacion
 	private List<ItemFactura> items;
 
-	public Factura() {
-		this.items = new ArrayList<ItemFactura>();
-	}
-
+	/*******************************
+	 * inicializaciones Pre persist
+	 * ***************************/
 	@PrePersist
 	public void prePersist() {
 		createAt = new Date();
 	}
+	
+	
+	
+	/***********************
+	 * Getteres and Setters
+	 * **********************/	
+	
+	public Factura() {
+		this.items = new ArrayList<ItemFactura>();
+	}
+
+	
 
 	public Long getId() {
 		return id;
@@ -103,6 +118,10 @@ public class Factura implements Serializable {
 	public void addItemFactura(ItemFactura item) {
 		this.items.add(item);
 	}
+	
+	/*****************
+	 * Metodos propios
+	 * ****************/
 
 	public Double getTotal() {
 		Double total = 0.0;

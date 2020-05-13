@@ -8,18 +8,18 @@
 	<!-- Inicio Nav -->
 	<header th:replace="layout/layaout :: header"> </header>
 	<!-- Fin nav  -->
-	
+
 	<!-- Mensajes-->
 	<div th:if="${success != null}">
-	<div th:replace="layout/layaout :: notification-success" ></div>	
+		<div th:replace="layout/layaout :: notification-success"></div>
 	</div>
-	
+
 	<div th:if="${danger != null}">
-	<div th:replace="layout/layaout :: notification-danger" ></div>	
+		<div th:replace="layout/layaout :: notification-danger"></div>
 	</div>
-	
+
 	<div th:if="${error != null}">
-	<div th:replace="layout/layaout :: notification-error" ></div>	
+		<div th:replace="layout/layaout :: notification-error"></div>
 	</div>
 	<!-- Mensajes-->
 
@@ -27,16 +27,32 @@
 	<main class="container animated fadeIn">
 
 		<div class="mt-5 mb-3">
-			<h3 th:text="${titulo}" 
-			class="row d-flex justify-content-center"></h3>
+			<p th:text="${titulo}" class="h2 row d-flex justify-content-center"></p>
 		</div>
+
+
+		<!-- Barra de busqueda -->
+		<div class="form-row">
+			<div class="col">
+				<div
+					class="form-inline d-flex justify-content-center
+								 md-form form-sm mt-0">
+					<i class="fas fa-search" aria-hidden="true"></i> <input
+						id="buscar_producto" name="buscar_producto"
+						class="form-control form-control-sm ml-3 w-75" type="text"
+						placeholder="Search" aria-label="Search">
+				</div>
+			</div>
+		</div>
+		<!-- Barra de busqueda FIN-->
+
+
+		<!-- boton agregar -->
 		<div class="row ml-5">
-			<a th:href="@{/form}"
-				class="btn btn-indigo btn-rounded btn-sm"><i
-				class="fas fa-user-plus fa-xl"></i>	
-				agregar			
-			</a>
+			<a th:href="@{/form}" class="btn btn-indigo btn-rounded btn-sm"><i
+				class="fas fa-user-plus fa-xl"></i> agregar </a>
 		</div>
+		<!-- boton agregar -->
 		
 		<!-- ROW -->
 		<div class="row ml-md-5">
@@ -53,12 +69,10 @@
 				</thead>
 				<tbody>
 					<tr th:each="cliente: ${clientes}">
-						
-						<th>
-							<a th:href="@{/ver/}+${cliente.id}" th:text="${cliente.id}"
-							class="btn-floating  btn-sm btn-indigo text-light">
-							</a>
-						</th>
+
+						<th><a th:href="@{/ver/}+${cliente.id}"
+							th:text="${cliente.id}"
+							class="btn-floating  btn-sm btn-indigo text-light"> </a></th>
 
 						<th th:text="${cliente.nombre}"></th>
 
@@ -68,32 +82,31 @@
 
 						<td th:text="${#calendars.format(cliente.createAt,'dd-MM-yyyy')}"></td>
 
-						<td>
-						
-						<a th:href="@{/form/} + ${cliente.id}"
+						<td><a th:href="@{/form/} + ${cliente.id}"
 							class="btn-floating btn-sm btn-secondary
 						 btn-rounded">
-								<i class="far fa-edit"></i>
-						</a>
-						
-						 <a th:href="@{/eliminar/} + ${cliente.id}" class="btn-floating 
-						 btn-sm btn-danger btn-rounded" 
-						 onclick="return confirm('¿ Desea Eliminar este usuario?');">
-						 <i	class="far fa-trash-alt"></i>
-						 </a>
-						
-						</td>
+								<i class="fas fa-user-edit"></i>
+						</a> <a th:href="@{/factura/form/} + ${cliente.id}"
+							class="btn-floating btn-sm btn-secondary
+						 btn-rounded">
+								<i class="fas fa-plus"></i>
+						</a> <a th:href="@{/eliminar/} + ${cliente.id}"
+							class="btn-floating 
+						 btn-sm btn-danger btn-rounded"
+							onclick="return confirm('ï¿½ Desea Eliminar este usuario?');">
+								<i class="far fa-trash-alt"></i>
+						</a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<!-- ROW -->
-		
-		
+
+
 		<div class="row d-flex justify-content-center">
-		<nav th:replace="layout/paginator :: paginator"></nav>
+			<nav th:replace="layout/paginator :: paginator"></nav>
 		</div>
-		
+
 	</main>
 	<!-- footer -->
 	<footer th:replace="layout/layaout :: footer"></footer>
