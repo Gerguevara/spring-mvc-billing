@@ -46,8 +46,12 @@ inicializerMDB();
 
 			return false;
 		}
-	});
-	//Auto complete FIN
+	});	//Auto complete FIN
+	
+	$("form").submit(function() {
+		$("#plantillaItemsFactura").remove();
+		return;
+	})
 });
 
 

@@ -10,6 +10,13 @@
 
 	<!-- main container -->
 	<div class="container-fluid">
+	
+	<!-- Notificaciones -->
+	<div th:if="${success != null}">
+		<div th:replace="layout/layaout :: notification-success"></div>
+	</div>
+	<!-- Notificaciones-->
+	
 		<!-- Row Principal -->
 		<div class="row mt-5">
 
