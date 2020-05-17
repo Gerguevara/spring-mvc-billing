@@ -30,5 +30,11 @@ public interface IClienteService {
 	// metodos ayuda a buscar un producti por Id y con el esablecer relacion con Item
 	public Producto findProductoById( long id);
 	
+	// metodo para ver detalle de las factura
+	public Factura findFacturaById(Long id);
+	
+	// metodo borrar una factura
+	public void deleteFactura(long id);
+	
 	
 }

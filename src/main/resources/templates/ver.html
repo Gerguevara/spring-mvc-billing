@@ -10,13 +10,18 @@
 
 	<!-- main container -->
 	<div class="container-fluid">
-	
-	<!-- Notificaciones -->
-	<div th:if="${success != null}">
-		<div th:replace="layout/layaout :: notification-success"></div>
-	</div>
-	<!-- Notificaciones-->
-	
+
+		<!-- Notificaciones -->
+		<div th:if="${success != null}">
+			<div th:replace="layout/layaout :: notification-success"></div>
+		</div>
+
+		<div th:if="${danger != null}">
+			<div th:replace="layout/layaout :: notification-danger"></div>
+		</div>
+
+		<!-- Notificaciones-->
+
 		<!-- Row Principal -->
 		<div class="row mt-5">
 
@@ -63,13 +68,11 @@
 						'dd-MM-yyyy')}"></p>
 				</div>
 				<!-- Row de fecha fin-->
-				
+
 				<!-- Row Crear Factura-->
 				<div class="row mt-4">
-				<a th:href="@{/factura/form/} + ${cliente.id}" 
-				class="btn btn-indigo btn-rounded">
-					Crear Factura
-				</a>
+					<a th:href="@{/factura/form/} + ${cliente.id}"
+						class="btn btn-indigo btn-rounded"> Crear Factura </a>
 				</div>
 				<!-- Row Crear Factura FIN-->
 
@@ -101,7 +104,19 @@
 
 								<td th:text="${factura.createAt}"></td>
 
-								<td th:text="${factura.total}"></td>
+								<td th:text="'$  '+${factura.total}"></td>
+
+								<td><a class="btn btn-primary btn-rounded btn-sm"
+									th:href="@{'/factura/ver/' + ${factura.id}}"
+									th:text="'detalle'"></a></td>
+
+								<td>
+								<a th:href="@{'/factura/eliminar/'+ ${factura.id}}"
+									class="btn-floating  btn-sm btn-danger btn-rounded"
+									onclick="return confirm('¿Desea Eliminar esta factura?');" >
+										<i class="far fa-trash-alt"></i>
+								</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

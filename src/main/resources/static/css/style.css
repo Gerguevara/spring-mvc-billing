@@ -31,6 +31,9 @@ border: 0px solid #000000;
 	background: linear-gradient(108deg, rgba(253,29,115,1) 0%, rgba(180,58,58,1) 100%);
 }
 
+.btn-primary:hover{
+	background: linear-gradient(108deg, rgba(253,29,115,1) 0%, rgba(180,58,58,1) 100%);
+}
 
 /*-estilos de boton file upload*/	
 
@@ -116,6 +119,9 @@ border: 0px solid #000000;
   transition: all .2s ease;
 }
 
+/*Texto especial*/
 .h5{
 	font-family: "Lucida Console", Courier, monospace;
 }
+
+

@@ -28,7 +28,8 @@ public class ClienteServiceImpl implements IClienteService {
 	@Autowired
 	private IproductoDao productoDao;
 	
-	private IFacturaDao facturaDao;
+	@Autowired
+	private IFacturaDao facturaDao;	
 
 	/***************************
 	 * Metodos CRUD implementador
@@ -96,5 +97,19 @@ public class ClienteServiceImpl implements IClienteService {
 	@Transactional(readOnly=true) 
 	public Producto findProductoById(long id) {		
 		return productoDao.findById(id).orElse(null);
+	}
+
+	// metodo para ver el detalle de la factura
+	@Override
+	public Factura findFacturaById(Long id) {
+		
+		return facturaDao.findById(id).orElse(null);
+	}
+
+	// metodo borrar una factura
+	@Override
+	@Transactional
+	public void deleteFactura(long id) {		
+		facturaDao.deleteById(id);
 	}
 }

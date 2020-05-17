@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layaout :: head"></head>
+
+<body>
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin del  Nav -->
+
+	<!-- Main Container INICIO -->
+	<main class="container animated fadeIn mt-1">
+
+		<!-- CARD INICIO -->
+		<div class="card mt-4 mx-5">
+
+			<!-- CARD Header INICIO -->
+			<div
+				class="card-header d-flex justify-content-center rgba-indigo-strong
+			 text-light">
+				<p class="h4" th:text="${titulo}"></p>
+			</div>
+			<!-- CARD Header FIN -->
+
+			<!-- CARD body INICIO -->
+			<div class="card-body">
+				<!--  Row info factura -->
+				<div class="row">
+				<!--  COL datos de factura-->
+					<div class="col-6">
+						<div class="col-12 d-flex justify-content-center">
+							<ul
+								class="list-group list-group-flush my-2">
+
+								<li class="list-group-item font-weight-bold "
+									th:text="'Descripción: ' + ${factura.descripcion}"></li>						
+
+								<li class="list-group-item font-weight-bold "
+									th:text="'Fecha: ' + ${factura.createAt}"></li>
+									
+									<li class="list-group-item font-weight-bold "
+									th:text="'Folio: ' + ${factura.id}"></li>
+							</ul>
+						</div>
+					</div>
+					<!--  COL datos de factura-->
+					
+					<!--  COL datos de cliente-->
+					<div class="col-6">
+						<div class="d-flex justify-content-center">
+							<ul class="list-group list-group-flush my-2">
+
+								<li th:text="'Cliente: '+ ${factura.cliente}"
+									class="list-group-item font-weight-bold "></li>
+
+								<li th:text="${'Contacto: '+ factura.cliente.email}"
+									class="list-group-item font-weight-bold"></li>
+
+								<li th:text="${'identificador: '+ factura.cliente.id}"
+									class="list-group-item font-weight-bold"></li>
+							</ul>
+						</div>
+					</div>
+					<!--  COL datos de cliente FIN-->
+					
+				</div>
+				<!--  Row info factura FIN-->
+
+
+
+
+				<!-- tABLE DATA -->
+				<div class="row">
+					<table th:if="${not #lists.isEmpty(factura.items)}"
+						class="table table-striped table-hover table-bordered my-3">
+						<thead>
+							<tr>
+								<th>Producto</th>
+								<th>Precio</th>
+								<th>Cantidad</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="linea: ${factura.items}">
+								<td th:text="${linea.producto.nombre}"></td>
+								<td th:text="${linea.producto.precio}"></td>
+								<td th:text="${linea.cantidad}"></td>
+								<td th:text="${linea.calcularImporte()}"></td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+				<!-- tABLE DATA Row -->
+
+				<!-- ROW DE TOTAL Y OBSERVACIONES-->
+				<div class="row d-flex justify-content-end">
+						<!-- DIV DE TOTAL -->
+					<div class="col-6">
+						<div class="ml-1 d-flex justify-content-center">
+							<p class="h4" th:text="'Total: $'+ ${factura.total}"></p>
+						</div>
+					</div>
+					<!-- DIV DE TOTAL FIN -->
+					
+						<!-- DIV DE OBSERVACIONES FIN -->
+					<div class="col-6">
+						<div class="card mb-4" style="max-width: 50rem;">
+							<div class="card-header">Observaciones</div>
+							<div class="card-body">
+								<!-- si hay observaciones -->
+								<p class="card-text" th:text="${factura.observacion}"
+									th:if="${not #strings.isEmpty(factura.observacion)}"></p>
+								<!-- si vacio -->
+								<h4 class="card-title"
+									th:if="${#strings.isEmpty(factura.observacion)}"
+									th:text="'No tiene observaciones'"></h4>
+							</div>
+						</div>
+					</div>
+					<!-- DIV DE OBSERVACIONES FIN -->
+				</div>
+				<!-- ROW DE TOTAL Y OBSERVACIONES FIN-->
+
+			</div>
+			<!-- CARD body FIN -->
+			.
+		</div>
+		<!-- CARD FIN-->
+
+		<!-- Botones Row -->
+		<div class="row d-flex justify-content-center mt-2">
+			<a th:href="@{'/ver/' + ${factura.cliente.id}}"
+				class="btn btn-secondary btn-rounded btn-sm"> <i
+				class="fas fa-arrow-left"></i> &nbsp; Volver
+			</a>
+		</div>
+		<!-- Botones Row FIN -->
+
+	</main>
+	<!-- Main Container FIN-->
+
+	<!-- Inicio footer -->
+	<footer th:replace="layout/layaout :: footer"></footer>
+	<!-- Fin delfooter -->
+</body>
+</html>

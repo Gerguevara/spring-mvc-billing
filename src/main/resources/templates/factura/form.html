@@ -11,17 +11,18 @@
 	<!-- Main Container inicio -->
 	<main class="container animated fadeIn mt-1">
 
+
 		<div class="card mt-5 mx-5">
 			<div class="row">
 				<!----------------------------------------------
 				---------------row datos del cliente--------------
 				------------------------------------------------->
 				<div class="col-3  indigo darken-4 text-white">
-				
-				<div class="d-flex justify-content-center mt-3">
-				<p class="h4">Datos de cliente</p>
-				</div>
-				
+
+					<div class="d-flex justify-content-center mt-3">
+						<p class="h4">Datos de cliente</p>
+					</div>
+
 					<!-- Row foto -->
 					<div class="d-flex justify-content-center mt-3">
 						<!-- Foto de Perfil -->
@@ -87,6 +88,13 @@
 										class="form-control form-control-lg"> <label
 										for="inputLGEx">Descripci&oacuten</label>
 								</div>
+
+								<!-- Errores de observacio -->
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('descripcion')}">
+									<small th:errors="*{descripcion}"> </small>
+								</div>
+								<!-- Errores de observacio -->
 							</div>
 						</div>
 						<!-- Description input fin -->
@@ -140,18 +148,23 @@
 							</tbody>
 						</table>
 						<!-- Items FIN-->
-						
+
 						<!-- Total-->
 						<div class="d-flex justify-content-end">
 							<h4>
-								<span class="badge badge-pill badge-primary"> $ 
-								<span
-									id="gran_total">0</span>
+								<span class="badge badge-pill badge-primary"> Total:
+									&nbsp;$ <span id="gran_total">0</span>
 								</span>
 							</h4>
 						</div>
 						<!-- Total FIN-->
-
+						
+						<!-- Mensajes de error -->
+						<div th:if="${error != null}">
+							<div class="alert alert-danger" role="alert" th:text="${error}">
+							</div>
+						</div>
+						<!-- Mensajes error  -->
 
 						<!-- Buttons -->
 						<div class="form-row mt-5">

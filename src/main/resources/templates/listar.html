@@ -90,7 +90,9 @@
 							class="btn-floating btn-sm btn-secondary
 						 btn-rounded">
 								<i class="fas fa-plus"></i>
-						</a> <a th:href="@{/eliminar/} + ${cliente.id}"
+						</a> 
+						
+						<a th:href="@{/eliminar/} + ${cliente.id}"
 							class="btn-floating 
 						 btn-sm btn-danger btn-rounded"
 							onclick="return confirm('� Desea Eliminar este usuario?');">

@@ -2,9 +2,12 @@ package com.formulario.app.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +33,26 @@ public class FacturaController {
 	private IClienteService clienteService;
 	
 	
+	/* permite ver el detalle de la factura
+	 * tomando com parametro su id y devolviendo la vista del detalle*/
+	@GetMapping("/ver/{id}")
+	public String getFactura(@PathVariable(value="id")Long id,	Model model,
+	RedirectAttributes flash) {		
+		
+		Factura factura = clienteService.findFacturaById(id);	
+		
+		if (factura == null) {			
+			flash.addFlashAttribute("error", "Factura no encontrada");
+			return "redirect:/listar";
+		}
+		model.addAttribute("factura", factura);
+		model.addAttribute("titulo", "Detalle Factura: ".concat(factura.getDescripcion()));
+		return "factura/ver";
+	}
 	
+	
+	/* metodo que perimite la vista del formulario para crear la factura
+	 * basado en el id de usuario que recibe, es un metodo de vist*/
 	@GetMapping("/form/{clienteId}")
 	public String crearFactura	(@PathVariable(value="clienteId")long clienteId,
 								Model model,RedirectAttributes flash) {
@@ -56,7 +78,9 @@ public class FacturaController {
 		return "factura/form";
 	}
 	
-	// busqueda de auto complete
+	
+	
+	// Da una respuesta Rest, que es utilizada por el autocomplete y jquery
 	// produces indica que no regresa una vista sino otra cosa como un json
 	// response body indica que no regresara una vista de thymeleaf
 	@GetMapping(value = "/cargar-productos/{term}", produces = { "application/json" })
@@ -67,16 +91,30 @@ public class FacturaController {
 	
 	
 	
-	/* este metodo recibe los parametros a travez de name pq algunos
+	/* este es el metodo de guardado, recibe los parametros a travez de name pq algunos
 	 * parametros no estan mapeados los input contienen esos atributos
 	 * por medio de un REST y la cantidad esos input tiene un mane y esos
 	 * son los que reciben*/	
 	
 	@PostMapping("/form")
-	public String guardar(Factura factura,
+	public String guardar(@Valid Factura factura,
+			BindingResult result, Model model,
 			@RequestParam(name = "item_id[]", required = false) Long[] itemId,
 			@RequestParam(name = "cantidad[]", required = false) Integer[] cantidad, 
 			RedirectAttributes flash, SessionStatus status) {
+		
+		// validando errores
+		if (result.hasErrors()) {
+			model.addAttribute("titulo", "Error creacion de factura");
+			return "factura/form";
+		}
+		
+		if (itemId == null || itemId.length == 0  ) {
+			model.addAttribute("titulo", "Crear Factura");
+			model.addAttribute("error", "Debe incluir al menos un producto");
+			return "factura/form";
+		}
+				
 				
 				
 				for (int i = 0; i < itemId.length; i++) {
@@ -108,6 +146,22 @@ public class FacturaController {
 				
 				
 				return	"redirect:/ver/" + factura.getCliente().getId();
+	}
+	
+	
+	@GetMapping("/eliminar/{id}")
+	public String eliminar(@PathVariable(value="id") Long id, RedirectAttributes flash) {
+		
+		Factura factura = clienteService.findFacturaById(id);
+		
+		if(factura != null) {
+			clienteService.deleteFactura(id);
+			flash.addFlashAttribute("success", "Factura eliminada con éxito!");
+			return "redirect:/ver/" + factura.getCliente().getId();
+		}
+		
+		flash.addFlashAttribute("danger", "La factura no existe en la base de datos!");		
+		return "redirect:/listar";
 	}
 	
 	
