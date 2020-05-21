@@ -1,15 +1,12 @@
 package com.formulario.app.controllers;
 
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 import javax.validation.Valid;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,9 +34,9 @@ import com.formulario.app.utils.paginator.PageRender;
 @Controller
 @SessionAttributes("cliente")
 public class Clienteontroller {
-	
+
 	@Autowired
-	private  IUploadFileService uploadService;
+	private IUploadFileService uploadService;
 
 	@Autowired // implmentendo la interfaz
 	private IClienteService clienteService;
@@ -47,10 +45,11 @@ public class Clienteontroller {
 	 **** METODOS***
 	 ***************/
 
+	// ver el perfil de un cliente
 	@RequestMapping("/ver/{id}")
 	public String getProfile(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
 
-		Cliente cliente = clienteService.findOne(id);
+		Cliente cliente = clienteService.fetchByIdWithFacturas(id);
 		if (cliente == null) {
 			flash.addFlashAttribute("error", "Cliente no encontrado");
 			return "redirect:/listar";
@@ -61,10 +60,6 @@ public class Clienteontroller {
 
 		return "ver";
 	}
-	
-	
-	
-	
 
 // metodo para la vista que lista todos los registros con paginacion
 	@RequestMapping("/listar")
@@ -92,11 +87,20 @@ public class Clienteontroller {
 		model.addAttribute("clientes", clientes);
 
 		return "listar";
-	}	
-	
-	
-	
-	
+	}
+
+// metodo para buscar un cliente	
+	@PostMapping("/buscar")
+	public String buscar( @RequestParam(name = "nombre") String nombre, Model model) {
+
+		List<Cliente> clientes = clienteService.buscarPorNombre(nombre);
+
+		// titulo
+		model.addAttribute("titulo", "Resultado de busqueda");
+		model.addAttribute("clientes", clientes);
+
+		return "/resultados";
+	}
 
 // en este caso se utiliza map solo para variar
 	@RequestMapping("/form")
@@ -111,66 +115,56 @@ public class Clienteontroller {
 		model.put("titulo", "Formulario de clientes"); // se usa .put pq se esta utilizando Map
 
 		return "form";
-	}	
-	
-	
-	
+	}
 
 	/*
 	 * metodo que se encarga de procesar los datos enviador por el formulario,
 	 * basicamente solo recibe el objeto guardado del formulario y utiliza el metodo
 	 * guardar
 	 */
-	
+
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
 	public String guardar(@Valid Cliente cliente, BindingResult result, Model model,
-			@RequestParam("file") MultipartFile foto, RedirectAttributes flash, 
-			SessionStatus status) {
+			@RequestParam("file") MultipartFile foto, RedirectAttributes flash, SessionStatus status) {
 
-		// verifica errores en el formulario sino retorna la vista con mensajes de error activos
+		// verifica errores en el formulario sino retorna la vista con mensajes de error
+		// activos
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario de clientes");
 			return "form";
 		}
-		
 
-		// verifica que exista la foto y la guarda (pero son varios if anidados)		
-		if (!foto.isEmpty()) {			
-		// verifica si existe la foto y la elimina			
-		if(cliente.getId() != null && cliente.getId() > 0
-		&& cliente.getFoto() != null && cliente.getFoto().length() > 0 
-		&& cliente.getFoto() != "") {				
+		// verifica que exista la foto y la guarda (pero son varios if anidados)
+		if (!foto.isEmpty()) {
+			// verifica si existe la foto y la elimina
+			if (cliente.getId() != null && cliente.getId() > 0 && cliente.getFoto() != null
+					&& cliente.getFoto().length() > 0 && cliente.getFoto() != "") {
 				// Elimina la foto
 				uploadService.delete(cliente.getFoto());
-			}		
-		
-		String uniqueFilename = null;
-		try {
-			// intenta guardar la foto
-		 uniqueFilename = uploadService.copy(foto);
-		} catch (IOException e) {			
-			e.printStackTrace();
-		}
-		cliente.setFoto(uniqueFilename);	
-		}	
-		else {
+			}
+
+			String uniqueFilename = null;
+			try {
+				// intenta guardar la foto
+				uniqueFilename = uploadService.copy(foto);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			cliente.setFoto(uniqueFilename);
+		} else {
 			// si no viene la foto asigna este valor por defecto
-			cliente.setFoto("");			
+			cliente.setFoto("");
 		} // fin
 
-	// determina si es una edicion o creacion y asigna se usar para el mensaje flash
+		// determina si es una edicion o creacion y asigna se usar para el mensaje flash
 		String mensajeFlah = (cliente.getId() != null) ? "Editado Correctamente" : "Guardado Correctamente";
-		
+
 		// aca se guarda la data
 		clienteService.save(cliente);
 		status.setComplete();
 		flash.addFlashAttribute("success", mensajeFlah);
 		return "redirect:listar";
-	}	
-	
-	
-	
-	
+	}
 
 	// metodo handler para editar un cliente
 	@RequestMapping("/form/{id}")
@@ -191,25 +185,21 @@ public class Clienteontroller {
 
 		return "/form";
 	}
-		
-	
-	
-	
 
 	// borrar un cliente
 	@RequestMapping("/eliminar/{id}")
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
 
-		if (id > 0) {			
-			
+		if (id > 0) {
+
 			Cliente cliente = clienteService.findOne(id);
 			clienteService.Eliminar(id);
 			flash.addFlashAttribute("danger", "Usuario Eliminado");
 			uploadService.delete(cliente.getFoto());
-			
+
 		}
 
 		return "redirect:/listar";
-	}		
-	
+	}
+
 }

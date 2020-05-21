@@ -39,7 +39,7 @@ public class FacturaController {
 	public String getFactura(@PathVariable(value="id")Long id,	Model model,
 	RedirectAttributes flash) {		
 		
-		Factura factura = clienteService.findFacturaById(id);	
+		Factura factura = clienteService.fetchByIdWithClienteWhithItemFacturaWithProducto(id);	
 		
 		if (factura == null) {			
 			flash.addFlashAttribute("error", "Factura no encontrada");

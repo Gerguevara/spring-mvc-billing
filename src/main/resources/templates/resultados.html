@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="layout/layaout :: head">
+</head>
+<body>
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin nav  -->
+
+	<!--  Cotainer Inicio-->
+	<main class="container">
+	
+		<!-- ROW de titulo -->
+		<div class="row">
+			<div class="mt-4 mb-4 col">
+				<p th:text="${titulo}" class="h2 row d-flex justify-content-center"></p>
+			</div>
+		</div>
+		<!-- ROW de titulo Fin-->		
+		
+			<!-- Barra de busqueda -->
+		<div class="form-row">
+			<div class="col">
+				<form class="form-inline d-flex justify-content-center
+					md-form form-sm mt-0" th:action="@{/buscar}" method="post">
+					<i class="fas fa-search" aria-hidden="true"></i> 
+					<input 	name="nombre" class="form-control form-control-sm ml-3 w-75" 
+					type="text" placeholder="Buscar otro cliente" aria-label="Search"
+					 minlength="3">
+				</form>
+			</div>
+		</div>
+		<!-- Barra de busqueda FIN-->	
+		
+		
+		<!-- ROW Sin resultados -->
+		<div class="row"  th:if="${#lists.isEmpty(clientes)}">
+			<div class="col">
+				<div class="alert alert-success" role="alert">Sin resultados</div>
+			</div>
+		</div>
+		<!-- ROW Sin resultados FIN-->
+
+
+	<!-- ROW  de table de resultados -->
+		<div class="row ml-md-5"  th:if="${not #lists.isEmpty(clientes)}">
+			<div class="col">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">id</th>
+							<th scope="col">nombre</th>
+							<th scope="col">apellido</th>
+							<th scope="col">email</th>
+							<th scope="col">fecha</th>
+							<th scope="col">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="cliente: ${clientes}">
+
+							<th><a th:href="@{/ver/}+${cliente.id}"
+								th:text="${cliente.id}"
+								class="btn-floating  btn-sm btn-indigo text-light"> </a>
+								</th>
+
+							<th th:text="${cliente.nombre}"></th>
+
+							<td th:text="${cliente.apellido}"></td>
+
+							<td th:text="${cliente.email}"></td>
+
+							<td th:text="${#calendars.format(cliente.createAt,'dd-MM-yyyy')}">
+							</td>
+						<!-- Botones de accion -->
+							<td>							
+							<a th:href="@{/form/} + ${cliente.id}"
+							class="btn-floating btn-sm btn-secondary btn-rounded">
+							<i class="fas fa-user-edit"></i>
+							</a> 
+							
+							<a th:href="@{/factura/form/} + ${cliente.id}"
+								class="btn-floating btn-sm btn-secondary btn-rounded">
+									<i class="fas fa-plus"></i>
+							</a> 
+							
+							<a th:href="@{/eliminar/} + ${cliente.id}"
+								class="btn-floating  btn-sm btn-danger btn-rounded"
+								onclick="return confirm('� Desea Eliminar este usuario?');">
+									<i class="far fa-trash-alt"></i>
+							</a>							
+							</td>
+						<!-- Botones de accion FIN-->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<!-- ROW  de table de resultados FIN -->
+		
+	<!-- ROW  de botones -->	
+		<div class="row">
+		<div class="col d-flex justify-content-center">
+		
+			<a th:href="@{/listar}" class="btn btn-light btn-rounded btn-sm">
+			 <i	class="fas fa-arrow-left"></i> &nbsp;
+			 volver</a>
+			
+			
+			<a th:href="@{/form}" class="btn btn-indigo btn-rounded btn-sm">
+			<i	class="fas fa-user-plus fa-xl"></i> agregar </a>
+		
+			
+		</div>
+		</div>
+	<!-- ROW  de botones FIN -->	
+	
+	</main>
+	<!--  Contenedor FIN-->
+	
+	<!-- footer -->
+	<div class="footer" th:classappend ="${#lists.size(clientes)} < 3 ? 'fixed-bottom'">
+	<footer th:replace="layout/layaout :: footer" ></footer>
+	</div>
+	<!-- footer Fin-->
+</body>
+</html>
