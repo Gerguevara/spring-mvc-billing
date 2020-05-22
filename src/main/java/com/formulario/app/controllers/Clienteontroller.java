@@ -62,7 +62,7 @@ public class Clienteontroller {
 	}
 
 // metodo para la vista que lista todos los registros con paginacion
-	@RequestMapping("/listar")
+	@RequestMapping({"/listar","/"})
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
 
 		// se declara el apginable con su metodo estatico

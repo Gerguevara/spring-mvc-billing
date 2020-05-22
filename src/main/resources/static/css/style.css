@@ -124,4 +124,19 @@ border: 0px solid #000000;
 	font-family: "Lucida Console", Courier, monospace;
 }
 
-
+/*Estilos del login*/
+svg{
+	
+	position: fixed;
+	z-index: -1
+	
+}
+.img-login{
+position:fixed;
+z-index:0;
+height: 570px;
+width: auto;
+}
+.btd:hover{
+	background: linear-gradient(108deg, rgba(253,29,115,1) 0%, rgba(91,58,180,1) 100%);
+}

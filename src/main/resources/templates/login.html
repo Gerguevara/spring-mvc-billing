@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layaout :: head">
+</head>
+<body class="animated fadeIn">
+
+	<!-- Wabes backgorund -->
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+<path fill="#000b76" fill-opacity="1"
+			d="M0,64L0,224L1440,224L1440,0L0,0L0,0Z">
+</path></svg>
+	<!-- Wabes backgorund -->
+
+	<main class="container-fluid">
+		<div class="row">
+			<div class="col-6">
+				<img th:src="@{/assets/billing.svg}" alt="" class="img-login" />
+				<p class="h1 text-light mt-2">Bienvenido. Por favor inicie
+					session para acceder al sistema.</p>
+			</div>
+
+			<!-- Row de login -->
+			<div class="col-5 mx-auto mt-5">
+				<!-- Default form login -->
+				<form class="text-center white border border-light p-5"
+					th:action="@{/login}" method="post">
+
+					<p class="h4 mb-4">
+						Sign in <i class="fa fa-cubes fa-lg" aria-hidden="true"></i>
+					</p>
+
+					<!-- Email -->
+					<input type="text" id="defaultLoginFormEmail"
+						class="form-control mb-4" placeholder="Usuario" name="username">
+
+					<!-- Password -->
+					<input type="password" id="defaultLoginFormPassword"
+						class="form-control mb-4" placeholder="Password" name="password">
+
+					<div class="d-flex justify-content-around">
+						<div>
+							<!-- Remember me -->
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input"
+									id="defaultLoginFormRemember"> <label
+									class="custom-control-label" for="defaultLoginFormRemember">Recuerdame</label>
+							</div>
+						</div>
+						<div>
+							<!-- Forgot password -->
+							<a href="">Olvide mi password</a>
+						</div>
+					</div>
+
+					<!-- Mensajes de error -->
+					<div th:if="${error != null}" class="mt-3">
+						<div class="alert alert-danger" role="alert" th:text="${error}">
+						</div>
+					</div>
+					<!-- Mensajes error  -->
+
+
+					<!-- Sign in button -->
+					<button
+						class="btn indigo darken-4 text-light btn-rounded
+					btn-block my-4"
+						type="submit">Sign in</button>
+
+					<!-- Seguridad-->
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}" />
+					<!-- Seguridad-->
+
+				</form>
+				<!-- Default form login -->
+			</div>
+			<!-- Row de login -->
+		</div>
+	</main>
+	<!-- main container Fin -->
+
+	<!--  Footer-->
+	<div class="footer fixed-bottom">
+		<footer th:replace="layout/layaout :: footer"></footer>
+	</div>
+	<!--  Footer FIN-->
+
+</body>
+</html>
