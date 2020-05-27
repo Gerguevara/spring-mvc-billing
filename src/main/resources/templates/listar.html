@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="layout/layaout :: head">
 </head>
@@ -46,7 +47,7 @@
 
 
 		<!-- boton agregar -->
-		<div class="row ml-5">
+		<div class="row ml-5" sec:authorize="hasRole('ROLE_ADMIN')">
 			<a th:href="@{/form}" class="btn btn-indigo btn-rounded btn-sm"><i
 				class="fas fa-user-plus fa-xl"></i> agregar </a>
 		</div>
@@ -57,18 +58,19 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th scope="col">id</th>
+						<th scope="col" sec:authorize="hasRole('ROLE_USER')">id</th>
 						<th scope="col">nombre</th>
 						<th scope="col">apellido</th>
 						<th scope="col">email</th>
 						<th scope="col">fecha</th>
-						<th scope="col">Acciones</th>
+						<th scope="col"  sec:authorize="hasRole('ROLE_ADMIN')">Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="cliente: ${clientes}">
 
-						<th><a th:href="@{/ver/}+${cliente.id}"
+						<th  sec:authorize="hasRole('ROLE_USER')">
+						<a th:href="@{/ver/}+${cliente.id}"
 							th:text="${cliente.id}"
 							class="btn-floating  btn-sm btn-indigo text-light"> </a></th>
 
@@ -80,7 +82,8 @@
 
 						<td th:text="${#calendars.format(cliente.createAt,'dd-MM-yyyy')}"></td>
 
-						<td><a th:href="@{/form/} + ${cliente.id}"
+						<td sec:authorize="hasRole('ROLE_ADMIN')">
+						<a th:href="@{/form/} + ${cliente.id}"
 							class="btn-floating btn-sm btn-secondary
 						 btn-rounded">
 								<i class="fas fa-user-edit"></i>

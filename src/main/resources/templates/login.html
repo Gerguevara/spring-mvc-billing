@@ -6,23 +6,27 @@
 
 	<!-- Wabes backgorund -->
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-<path fill="#000b76" fill-opacity="1"
-			d="M0,64L0,224L1440,224L1440,0L0,0L0,0Z">
-</path></svg>
+	<path fill="#000b76" fill-opacity="1"
+	d="M0,64L0,224L1440,224L1440,0L0,0L0,0Z">
+	</path></svg>
 	<!-- Wabes backgorund -->
-
+	
+	<!-- backgound img -->
+	<img th:src="@{/assets/billing.svg}" alt="" class="img-login" />
+	<!-- backgound img FIN-->
+	
 	<main class="container-fluid">
+		
 		<div class="row">
-			<div class="col-6">
-				<img th:src="@{/assets/billing.svg}" alt="" class="img-login" />
+			<div class="col-6">				
 				<p class="h1 text-light mt-2">Bienvenido. Por favor inicie
 					session para acceder al sistema.</p>
 			</div>
 
 			<!-- Row de login -->
-			<div class="col-5 mx-auto mt-5">
+			<div class="col-5 mx-auto margin-top-form">
 				<!-- Default form login -->
-				<form class="text-center white border border-light p-5"
+				<form class="text-center white border border-light p-5 w-90"
 					th:action="@{/login}" method="post">
 
 					<p class="h4 mb-4">
@@ -61,9 +65,7 @@
 
 
 					<!-- Sign in button -->
-					<button
-						class="btn indigo darken-4 text-light btn-rounded
-					btn-block my-4"
+					<button	class="btn indigo darken-4 text-light btn-rounded btn-block btd mt-5"
 						type="submit">Sign in</button>
 
 					<!-- Seguridad-->

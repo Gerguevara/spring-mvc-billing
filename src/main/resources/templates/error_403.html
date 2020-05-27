@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/layaout :: head">
+</head>
+<body>
+
+	<!-- Inicio Nav -->
+	<header th:replace="layout/layaout :: header"> </header>
+	<!-- Fin nav  -->
+
+	<!--  Main-->
+	<main class="container">
+		<div class="row mt-5">
+			<!--  Mensaje-->
+			<div class="col-6">
+				<p class="h1">Error 403, Acceso Denegado</p>
+
+				<p class="h2">
+					Lo sentimos <span sec:authentication="name"></span> no tienes
+					permisos para realizar esta acción.
+				</p>
+
+				<a th:href="@{/listar}"
+					class="btn btn-info waves-effect btn-rounded mt-5">Ir al inicio</a>
+			</div>
+			<!--  Mensaje--
+			
+			<!--  Imagen-->
+			<div class="col-6">
+				<img th:src="@{/assets/403.svg}" alt="403" width="600" height="600">
+			</div>
+			<!--  Imagen-->
+		</div>
+	</main>
+	<!--  Main-->
+
+	<!--  Footer-->
+	<div class="footer fixed-bottom">
+		<footer th:replace="layout/layaout :: footer"></footer>
+	</div>
+	<!--  Footer FIN-->
+
+
+</body>
+</html>

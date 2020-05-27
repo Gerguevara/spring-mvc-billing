@@ -101,7 +101,13 @@ var itemsHelper = {
 
 // inicializaciones de mdb
 function inicializerMDB(){
+	
 	$('.toast').toast('show');
+	
+	setTimeout(function(){
+	$('.toast').toast('hide'); 
+	}, 3000);
+	
 }
 
 

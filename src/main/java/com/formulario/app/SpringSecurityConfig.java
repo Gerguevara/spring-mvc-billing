@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	// configura los accesos a rutas
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -24,13 +26,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/uploads/**").hasAnyRole("USER")
 		.antMatchers("/eliminar/**").hasAnyRole("ADMIN")	
 		.antMatchers("/form/**").hasAnyRole("ADMIN")
+		.antMatchers("/factura/ver/**").hasAnyRole("USER")
 		.antMatchers("/factura/**").hasAnyRole("ADMIN")
 		.anyRequest().authenticated()// ejecuta las autenticaciones
 		.and()
 		.formLogin().loginPage("/login")// permite personalisar la ruta y vista del login
 		.permitAll() // redirige hacia el formularia y es permitido para todos
 		.and()
-		.logout().permitAll();
+		.logout().permitAll()
+		.and()
+		.exceptionHandling().accessDeniedPage("/error_403");
 	}
 	
 	
@@ -39,7 +44,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-
+	// crea en memoria 2 usuarios con sus respectivos roles
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception
 	{		
@@ -53,5 +58,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		.withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
 		.withUser(users.username("gerardo").password("12345").roles("USER"));
 	}
+	
+	// metodo ignora estas rutas por cualquier peticion residual
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	    web.ignoring().antMatchers("/js/**","/css/**","/assets/**");
+	}
+	
 
 }

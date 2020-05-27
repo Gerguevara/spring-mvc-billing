@@ -35,6 +35,9 @@ border: 0px solid #000000;
 	background: linear-gradient(108deg, rgba(253,29,115,1) 0%, rgba(180,58,58,1) 100%);
 }
 
+.btn-info:hover{
+	background: linear-gradient(108deg, rgba(253,29,115,1) 0%, rgba(180,58,58,1) 100%);
+}
 /*-estilos de boton file upload*/	
 
 .file-upload-btn:active {
@@ -137,6 +140,20 @@ z-index:0;
 height: 570px;
 width: auto;
 }
+
+.margin-top-form{
+	
+}
 .btd:hover{
 	background: linear-gradient(108deg, rgba(253,29,115,1) 0%, rgba(91,58,180,1) 100%);
 }
+.margin-top-form{
+	margin-top: 10%
+}
+
+.w-90{
+	width: 90%;
+}
+
+
+

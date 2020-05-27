@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- head fragment -->
 <head th:replace="layout/layaout :: head"></head>
 <!-- head fragment -->
@@ -70,7 +71,7 @@
 				<!-- Row de fecha fin-->
 
 				<!-- Row Crear Factura-->
-				<div class="row mt-4">
+				<div class="row mt-4" sec:authorize="hasRole('ROLE_ADMIN')">
 					<a th:href="@{/factura/form/} + ${cliente.id}"
 						class="btn btn-indigo btn-rounded"> Crear Factura </a>
 				</div>
@@ -106,11 +107,12 @@
 
 								<td th:text="'$  '+${factura.total}"></td>
 
-								<td><a class="btn btn-primary btn-rounded btn-sm"
+								<td sec:authorize="hasRole('ROLE_USER')">
+								<a class="btn btn-primary btn-rounded btn-sm"
 									th:href="@{'/factura/ver/' + ${factura.id}}"
 									th:text="'detalle'"></a></td>
 
-								<td>
+								<td sec:authorize="hasRole('ROLE_ADMIN')">
 								<a th:href="@{'/factura/eliminar/'+ ${factura.id}}"
 									class="btn-floating  btn-sm btn-danger btn-rounded"
 									onclick="return confirm('¿Desea Eliminar esta factura?');" >
@@ -125,10 +127,12 @@
 
 				<!-- Row de botones -->
 				<div class="row">
-					<a th:href="@{/form/} + ${cliente.id}"
+					<a th:href="@{/form/} + ${cliente.id}" sec:authorize="hasRole('ROLE_ADMIN')"
 						class="btn btn-deep-purple btn-rounded"> <i
 						class="far fa-edit"></i> &nbsp; Editar
-					</a> <a th:href="@{/listar}" class="btn btn-light btn-rounded"> <i
+					</a> 
+					
+					<a th:href="@{/listar}" class="btn btn-light btn-rounded"> <i
 						class="fas fa-arrow-left"></i> &nbsp; Volver
 					</a>
 				</div>
