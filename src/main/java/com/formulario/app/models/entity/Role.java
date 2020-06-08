@@ -14,7 +14,8 @@ public class Role implements Serializable {
     * no habran repedito un conjunto de user_id y authority */
 
 
-    /**************
+
+	/**************
      * Declarations
      **************/
     @Id
@@ -42,4 +43,9 @@ public class Role implements Serializable {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+    
+    
+
+  
+	private static final long serialVersionUID = 1L;
 }

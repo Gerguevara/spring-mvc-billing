@@ -3,6 +3,7 @@ package com.formulario.app.models.services;
 import com.formulario.app.models.dao.IUsuarioDao;
 import com.formulario.app.models.entity.Role;
 import com.formulario.app.models.entity.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +21,7 @@ import java.util.List;
 public class JpaUserDetailServices implements UserDetailsService {
 
     //Se inyecta el usuario a travez de su objeto DAO  accesando a su entity
+    @Autowired
     private IUsuarioDao usuarioDao;
 
     //User Datail Respresenta un usuario autenticado

@@ -7,7 +7,9 @@ import java.util.List;
 @Table(name = "users")
 public class Usuario  implements Serializable {
 
-    /**************
+  
+
+	/**************
      * Declarations
      **************/
 
@@ -21,7 +23,7 @@ public class Usuario  implements Serializable {
     @Column(length = 60)
     private String password;
 
-    private  Boolean enable;
+    private  Boolean enabled;
 
     // Establece la relacion con los roles
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -57,11 +59,11 @@ public class Usuario  implements Serializable {
     }
 
     public Boolean getEnable() {
-        return enable;
+        return enabled;
     }
 
     public void setEnable(Boolean enable) {
-        this.enable = enable;
+        this.enabled = enable;
     }
 
     public List<Role> getRoles() {
@@ -73,6 +75,9 @@ public class Usuario  implements Serializable {
     }
 
 
-
+    /**
+  	 * 
+  	 */
+  	private static final long serialVersionUID = 1L;
 
 }

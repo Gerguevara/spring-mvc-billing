@@ -1,5 +1,6 @@
 package com.formulario.app;
 
+import com.formulario.app.models.services.JpaUserDetailServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+	//Se inyecta el servisio del usar
+	@Autowired
+	
+	JpaUserDetailServices userDetailsService;
+	// inyeccion del bcripte
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	// configura los accesos a rutas
 	@Override
@@ -39,25 +49,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	
-	@Bean // intancia el Bcrype para la version 5 de Spring usado en el metodo configureGlobal
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+
+
+
+// Realiza la consulta JPA para hacer login
+	@Autowired
+	public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {			
+		// se pasa el usuario Service para construir
+		build.userDetailsService(userDetailsService)
+		.passwordEncoder(passwordEncoder);		
+
 	}
 	
-	// crea en memoria 2 usuarios con sus respectivos roles
-	@Autowired
-	public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception
-	{		
-		
-		PasswordEncoder encoder = passwordEncoder();		
-		//Este metodo encripta cada vez que se cre un password	
-		UserBuilder users = User.builder().passwordEncoder(encoder::encode);
-		
-		//crea el usuario en memoria
-		build.inMemoryAuthentication()
-		.withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
-		.withUser(users.username("gerardo").password("12345").roles("USER"));
-	}
 	
 	// metodo ignora estas rutas por cualquier peticion residual
 	@Override
